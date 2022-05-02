@@ -221,7 +221,7 @@ void InitPWM(void){
 }
 
 int TrackingObj(void){
-    while(1){//always running
+    while(1){//always running until this function returning
         wait_detect:
         if(detect_success){
             detect_success=false;
@@ -279,7 +279,7 @@ int TrackingObj(void){
                 int k = waitKey(5);
                 if(k == 27)
                 {
-                    cout <<"ESC - out from tracking";
+                    cout <<"ESC - out from tracking\n";
                     tracking_failure=true;
                     end_program=true;
                     gpioPWM(12,0);
@@ -315,7 +315,7 @@ bool func_Detect_Stop_Sign(Mat &src)
     interpreter->SetNumThreads(2);      //quad core
     interpreter->Invoke();      // run your model
 
-    const float* detection_locations = interpreter->tensor(interpreter->outputs()[0])->data.f;
+    //const float* detection_locations = interpreter->tensor(interpreter->outputs()[0])->data.f;
     const float* detection_classes=interpreter->tensor(interpreter->outputs()[1])->data.f;
     const float* detection_scores = interpreter->tensor(interpreter->outputs()[2])->data.f;
     const int    num_detections = *interpreter->tensor(interpreter->outputs()[3])->data.f;
@@ -342,7 +342,7 @@ bool func_Detect_Stop_Sign(Mat &src)
     }
     float fps = cv::getTickFrequency() / (float)(cv::getTickCount() - timer);
     cout << "From detecting signs FPS="<<fps<< "\n";
-
+    return 0;
 }
 
 
